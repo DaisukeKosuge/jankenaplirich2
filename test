@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<script src="js/jquery-2.1.3.min.js"></script>
+<link rel="stylesheet" href="css/sample.css">
+<title>じゃんけん</title>
+</head>
+<body>
+
+<header>
+  <h1>RCP-ROBOT BATTLE</h1>
+</header>
+
+<main>
+ 
+  <label class="kakekin1">掛け金を入力してください：<input id="kakekin2" type="number" value=""></label> 
+  <input type="button" value="Check" id="checkButton">
+  <p id="msg"></p>
+
+  <ul>
+    <li id="gu_btn">グー</li>
+    <li id="cho_btn">チョキ</li>
+    <li id="par_btn">パー</li>
+  </ul>
+  <div>コンピュータの出した手は？「<span id="pc_hands">なに？</span>」</div>
+  <div>
+    <img src="img/robot.jpg" alt="">
+    <img id="gazou" src="" alt="">
+  </div>
+  <div id="judgment">勝ち</div>
+  <div id="nokorimedal">メダル数</div>
+</main>
+
+<footer></footer>
+<script>
+//じゃんけん用のSCRIPTを書いてください
+
+// 自分がグーを出した
+
+let medal = 10 + ; //小菅
+let motomedal = medal;
+console.log(motomedal);
+
+$(function() {
+    $(document).on('input', '#kakekin2', function(e) {
+      $("#checkButton").on("click",function(){
+        $('#msg').text("掛け金は"+$('#kakekin2').val()+"ですね");
+      });
+    });
+});
+
+$("#gu_btn").on("click",function(){
+  const r = Math.random()*3; //小数点0.000001~0.99999
+  const n = Math.ceil(r);    //繰り上げ0.01➡1
+  // const kakemedal = $('#kakekin2').val();
+
+
+  console.log(n);
+    if(n == 1){
+        $("#pc_hands").html("グー");           //文字を上書き
+        $("#judgment").html("あいこ"); 
+        medal = motomedal ;
+        console.log(medal);
+        $("#nokorimedal").html(medal); 
+    }
+    if(n == 2){
+      　$("#pc_hands").html("チョキ");  
+      　$("#judgment").html("勝ち"); 
+      medal = motomedal + $('#kakekin2').val() ;
+      console.log(medal);
+      $("#nokorimedal").html(medal); 
+    }
+    if(n == 3){
+     　 $("#pc_hands").html("パー");  
+     　　$("#judgment").html("負け"); 
+     medal = motomedal - $('#kakekin2').val() ;
+     console.log(medal);
+     $("#nokorimedal").html(medal); 
+    }
+});
+
+// 自分がチョキを出した
+$("#cho_btn").on("click",function(){
+  const r = Math.random()*3; //小数点0.000001~0.99999
+  const n = Math.ceil(r);    //繰り上げ0.01➡1
+  console.log(n);
+    if(n == 1){
+        $("#pc_hands").html("グー");           //文字を上書き
+        $("#judgment").html("負け"); 
+        medal = motomedal - $('#kakekin2').val() ;
+        console.log(medal);
+     $("#nokorimedal").html(medal); 
+    }
+    if(n == 2){
+      　$("#pc_hands").html("チョキ");  
+      　$("#judgment").html("あいこ"); 
+        medal = motomedal ;
+        console.log(medal);
+        $("#nokorimedal").html(medal);  
+    }
+    if(n == 3){
+     　 $("#pc_hands").html("パー");  
+     　　$("#judgment").html("勝ち"); 
+     medal = motomedal + $('#kakekin2').val() ;
+     console.log(medal);
+      $("#nokorimedal").html(medal); 
+    }
+});
+
+// 自分がパーを出した
+$("#par_btn").on("click",function(){
+  const r = Math.random()*3; //小数点0.000001~0.99999
+  const n = Math.ceil(r);    //繰り上げ0.01➡1
+  console.log(n);
+    if(n == 1){
+        $("#pc_hands").html("グー");           //文字を上書き
+        $("#judgment").html("勝ち");
+        medal = motomedal + $('#kakekin2').val() ;
+        console.log(medal);
+      $("#nokorimedal").html(medal); 
+    }
+    if(n == 2){
+      　$("#pc_hands").html("チョキ");  
+      　$("#judgment").html("負け");
+      medal = motomedal - $('#kakekin2').val() ;
+      console.log(medal);
+     $("#nokorimedal").html(medal);  
+    }
+    if(n == 3){
+     　 $("#pc_hands").html("パー");  
+     　 $("#judgment").html("あいこ"); 
+        medal = motomedal ;
+        console.log(medal);
+        $("#nokorimedal").html(medal); 
+    }
+});
+
+    
+    
+    
+    
+    
+
+</script>
+</body>
+</html>

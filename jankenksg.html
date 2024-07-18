@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>じゃんけんゲーム</title>
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>じゃんけんゲーム</h1>
+        <div class="balance">
+            <p>現在の持ち金: <span id="balance">1000</span>円</p>
+        </div>
+        <div class="betting">
+            <input type="number" id="bet-amount" placeholder="掛け金を入力">
+        </div>
+        <div class="choices">
+            <button onclick="play('ぐー')">
+                <img src="./img/gu.png" alt="ぐー">
+                ぐー
+            </button>
+            <button onclick="play('ちょき')">
+                <img src="./img/cho.png" alt="ちょき">
+                ちょき
+            </button>
+            <button onclick="play('ぱー')">
+                <img src="./img/pa.png" alt="ぱー">
+                ぱー
+            </button>
+        </div>
+        <div class="result">
+            <p id="user-choice">あなたの選択: </p>
+            <p id="robot-choice">ロボットの選択: </p>
+            <p id="result-message"></p>
+        </div>
+    </div>
+
+    <script>
+       // script.js
+let balance = 1000;
+
+function play(userChoice) {
+    const betAmount = parseInt(document.getElementById('bet-amount').value);
+    if (isNaN(betAmount) || betAmount <= 0) {
+        alert('有効な掛け金を入力してください。');
+        return;
+    }
+
+    if (betAmount > balance) {
+        alert('掛け金が現在の持ち金を超えています。');
+        return;
+    }
+
+    const choices = ['ぐー', 'ちょき', 'ぱー'];
+    const robotChoice = choices[Math.floor(Math.random() * choices.length)];
+
+    document.getElementById('user-choice').innerText = `あなたの選択: ${userChoice}`;
+    document.getElementById('robot-choice').innerText = `ロボットの選択: ${robotChoice}`;   
+
+    const resultMessage = getResult(userChoice, robotChoice, betAmount);
+    document.getElementById('result-message').innerText = resultMessage;
+    document.getElementById('balance').innerText = balance ;
+}
+
+function getResult(user, robot, betAmount) {
+    if (user === robot) {
+        return 'あいこです！掛け金は戻されます。';
+    }
+
+    if (
+        (user === 'ぐー' && robot === 'ちょき') ||
+        (user === 'ちょき' && robot === 'ぱー') ||
+        (user === 'ぱー' && robot === 'ぐー')
+    ) {
+        balance += betAmount;
+        return `あなたの勝ちです！${betAmount}円を獲得しました。`;
+    } else {
+        balance -= betAmount;
+        return `あなたの負けです！${betAmount}円を失いました。`;
+    }
+}
+
+    </script>
+</body>
+</html>
+

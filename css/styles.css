@@ -1,0 +1,82 @@
+/* styles.css */
+body {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, #b59aff 0%, #c4d5fa 100%);
+    animation: backgroundAnimation 10s ease infinite;
+}
+
+@keyframes backgroundAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.container {
+    text-align: center;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    animation: bounceIn 1s ease;
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    80% { transform: scale(1.1); opacity: 0.8; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+    color: #b59aff;
+    text-shadow: 2px 2px #c4d5fa;
+}
+
+.balance, .betting {  
+    margin-bottom: 20px;
+    font-size:  20px;
+}
+
+.betting input {
+    padding: 10px;
+    font-size: 20px;
+    border: 2px solid #b59aff;
+    border-radius: 5px;
+    background-color: #c4d5fa;
+    color: #b59aff;
+}
+
+.choices button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 30px;
+    cursor: pointer;
+    background-color: #b59aff;
+    border: 2px solid #c4d5fa;
+    border-radius: 5px;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.choices button:hover {
+    background-color: #c4d5fa;
+    color: #b59aff;
+}
+
+.choices img {
+    display: block;
+    margin: 0 auto 10px;
+    width: 500px;
+}
+
+.result p {
+    margin: 10px 0;
+    font-size: 2em;
+    color: #b59aff;
+}
