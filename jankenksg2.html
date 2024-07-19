@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>じゃんけんゲーム</title>
-    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/styles3.css">
 </head>
 <body>
     <div class="container">
@@ -34,22 +34,26 @@
         </div>
         <div class="result">
             <p id="robot-choice">ロボットの選択: <span id="robot-hand"></span></p>
+            <img id="robot-rock" src="./img/gu.png" alt="ぐー" style="display:none;">
+            <img id="robot-scissors" src="./img/cho.png" alt="ちょき" style="display:none;">
+            <img id="robot-paper" src="./img/pa.png" alt="ぱー" style="display:none;">
             <p id="result-message"></p>
         </div>
+
+        <div class="retry" style="display:none;">
+            <button onclick="retry()">もう一度</button>
+        </div>
+
         <div class="shop">
             <h2>アイテムショップ</h2>
             <div class="item" onclick="buyItem('win-boost')">
-                <p>勝利ブースト（100円）</p>
+                <p>幸運のポーション（100円）</p>
             </div>
             <div class="item" onclick="buyItem('double-bet')">
-                <p>掛け金2倍（200円）</p>
+                <p>倍々のポーション（200円）</p>
             </div>
         </div>
     </div>
-    <script src="script.js"></script>
-</body>
-</html>
-
     <script>
         // script.js
 let balance = 1000;
@@ -69,6 +73,11 @@ function play(userChoice) {
     }
 
     const choices = ['ぐー', 'ちょき', 'ぱー'];
+    const imageElements = {
+        'ぐー': document.getElementById('robot-rock'),
+        'ちょき': document.getElementById('robot-scissors'),
+        'ぱー': document.getElementById('robot-paper')
+    };
     let robotChoice;
 
     // 勝利ブーストが有効な場合、プレイヤーが有利になるようにロボットの手を選ぶ
@@ -98,32 +107,63 @@ function play(userChoice) {
         }
     });
 
-    const robotHandElement = document.getElementById('robot-hand');
-    robotHandElement.innerText = '';
-    robotHandElement.style.visibility = "visible";
+    //アイテムショップを非表示
+    document.querySelector('.shop').style.display = 'none';
 
+    // フラッシュエフェクトのためのインターバルを設定
+    const robotHandElement = document.getElementById('robot-hand');
+    
     let flashIndex = 0;
     const flashInterval = setInterval(() => {
+        Object.values(imageElements).forEach(img => img.style.display = 'none');
+        imageElements[choices[flashIndex]].style.display = 'inline';
         robotHandElement.innerText = choices[flashIndex];
         flashIndex = (flashIndex + 1) % choices.length;
     }, 200);
 
     setTimeout(() => {
         clearInterval(flashInterval);
+        Object.values(imageElements).forEach(img => img.style.display = 'none');
+        imageElements[robotChoice].style.display = 'inline';
         robotHandElement.innerText = robotChoice;
-        robotHandElement.style.visibility = "visible";
 
         const userWins = checkUserWin(userChoice, robotChoice);
         const resultMessage = getResult(userChoice, robotChoice, betAmount, userWins);
         document.getElementById('result-message').innerText = resultMessage;
-        document.getElementById('balance').innerText = balance ;
+        document.getElementById('balance').innerText = balance;
 
-        // 再度全てのボタンを表示
-        buttons.forEach(button => {
-            button.style.display = 'flex';
-            button.style.margin = '10px';
-        });
+         // 再度全てのボタンを表示しない、もう一度ボタンを表示
+        document.querySelector('.retry').style.display = 'block';
     }, 2000);
+}
+
+function retry() {
+    // すべてのボタンを再表示
+    const buttons = document.querySelectorAll('.choices-buttons button');
+    buttons.forEach(button => {
+        button.style.display = 'flex';
+        button.style.margin = '10px';
+    });
+
+    // 結果メッセージとロボットの手の表示をリセット
+    document.getElementById('result-message').innerText = '';
+    document.getElementById('robot-hand').innerText = '';
+
+    // すべてのロボット手画像を非表示
+    document.getElementById('robot-rock').style.display = 'none';
+    document.getElementById('robot-scissors').style.display = 'none';
+    document.getElementById('robot-paper').style.display = 'none';
+
+    // もう一度ボタンを非表示
+    document.querySelector('.retry').style.display = 'none';
+
+    // アイテムショップを再表示
+    document.querySelector('.shop').style.display = 'block';
+
+    //グレーアウト解除
+    document.querySelectorAll('.item.disabled').forEach(item => {
+        item.classList.remove('disabled');
+    });
 }
 
 function checkUserWin(user, robot) {
@@ -158,28 +198,40 @@ function getResult(user, robot, betAmount, userWins) {
 }
 
 function buyItem(item) {
+    let itemElement;
     if (item === 'win-boost') {
+        itemElement = document.querySelector('.item[onclick*="win-boost"]');
         if (winBoost) {
             alert('勝利ブーストは既に購入済みです。');
+            return;
         } else if (balance >= 100) {
             balance -= 100;
             winBoost = true;
             alert('勝利ブーストを購入しました！次のゲームで使用されます。');
+            itemElement.classList.add('disabled'); // ボタンをグレーアウト
         } else {
             alert('お金が足りません！');
+            return;
         }
     } else if (item === 'double-bet') {
+        itemElement = document.querySelector('.item[onclick*="double-bet"]');
         if (doubleBet) {
             alert('掛け金2倍は既に購入済みです。');
+            return;
         } else if (balance >= 200) {
             balance -= 200;
             doubleBet = true;
             alert('掛け金2倍を購入しました！次のゲームで使用されます。');
+            itemElement.classList.add('disabled'); // ボタンをグレーアウト
         } else {
             alert('お金が足りません！');
+            return;
         }
     }
     document.getElementById('balance').innerText = balance;
 }
 
+
     </script>
+</body>
+</html>
