@@ -53,6 +53,12 @@
                 <p>倍々のポーション（200円）</p>
             </div>
         </div>
+         <!-- 効果音のオーディオ要素を追加 -->
+         <audio id="roll-sound" src="./sound/ドラムロール.mp3" preload="auto"></audio>
+         <audio id="win-sound" src="./sound/ラッパのファンファーレ.mp3" preload="auto"></audio>
+         <audio id="lose-sound" src="./sound/間抜け4.mp3" preload="auto"></audio>
+         <audio id="draw-sound" src="./sound/間抜け3.mp3" preload="auto"></audio>
+         <audio id="click-sound" src="./sound/スイッチを押す.mp3" preload="auto"></audio>
     </div>
     <script>
         // script.js
@@ -60,7 +66,19 @@ let balance = 1000;
 let winBoost = false;
 let doubleBet = false;
 
+// 効果音のオーディオ要素を取得
+const winSound = document.getElementById('win-sound');
+const loseSound = document.getElementById('lose-sound');
+const drawSound = document.getElementById('draw-sound');
+const clickSound = document.getElementById('click-sound');
+const rollSound = document.getElementById('roll-sound');
+
 function play(userChoice) {
+
+    clickSound.play();
+    rollSound.play();
+
+
     const betAmount = parseInt(document.getElementById('bet-amount').value);
     if (isNaN(betAmount) || betAmount <= 0) {
         alert('有効な掛け金を入力してください。');
@@ -132,9 +150,18 @@ function play(userChoice) {
         document.getElementById('result-message').innerText = resultMessage;
         document.getElementById('balance').innerText = balance;
 
+        // 勝敗に応じた効果音を再生
+        if (userWins === null) {
+            drawSound.play();
+        } else if (userWins) {
+            winSound.play();
+        } else {
+            loseSound.play();
+        }
+
          // 再度全てのボタンを表示しない、もう一度ボタンを表示
         document.querySelector('.retry').style.display = 'block';
-    }, 2000);
+    }, 4000);
 }
 
 function retry() {
